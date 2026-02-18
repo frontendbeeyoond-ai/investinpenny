@@ -183,11 +183,20 @@ const article = {
               {singleBlog.blog_img && (
                 <figure className="mb-10">
                   <div className="relative rounded-2xl overflow-hidden">
-                    <img
+                    {/* <img
                       src={singleBlog.blog_img}
                       alt={singleBlog.blog_title}
                       className="w-full object-cover max-h-[480px]"
+                    /> */}
+                  {singleBlog?.blog_img && (
+                    <img
+                      src={singleBlog.blog_img}
+                      alt={singleBlog.blog_title || "Blog image"}
+                      className="w-full object-cover max-h-[480px]"
+                      loading="lazy"
                     />
+                  )}
+
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
                   </div>
                 </figure>
@@ -373,6 +382,36 @@ const article = {
   border-radius: 0.75rem;
   margin: 1.5rem 0;
 }
+
+
+@media (max-width: 768px) {
+
+  .quill-blog-content .ql-editor,
+  .quill-blog-content p {
+    font-size: 14px;
+    line-height: 1.7;
+  }
+
+  .quill-blog-content h1 {
+    font-size: 1.75rem;   /* 28px */
+  }
+
+  .quill-blog-content h2 {
+    font-size: 1.5rem;    /* 24px */
+  }
+
+  .quill-blog-content h3 {
+    font-size: 1.25rem;   /* 20px */
+  }
+
+  .quill-blog-content ul,
+  .quill-blog-content ol {
+    padding-left: 1.25rem;
+  }
+
+  .quill-blog-content blockquote {
+    padding-left: 0.75rem;
+  }
 
 `}</style>
 

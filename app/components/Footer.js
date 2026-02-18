@@ -41,7 +41,7 @@ export const Footer = () => {
               <h4 className="font-bold text-yellow-400 text-xl mb-3">
                 Disclaimer
               </h4>
-              <p className="text-gray-400 leading-relaxed text-md lg:text-lg">
+              <p className="text-gray-400 leading-relaxed text-xs lg:text-md">
                 This platform is designed to{" "}
                 <strong className="text-white">
                   increase investor awareness by highlighting statistical
@@ -73,7 +73,7 @@ export const Footer = () => {
 
           <div className="flex flex-wrap items-center justify-center gap-6 text-sm text-gray-500">
             <span>© 2026 Educational Concept</span>
-            <span>•</span>
+            {/* <span>•</span> */}
             <span>Not Financial Advice</span>
           </div>
         </div>
