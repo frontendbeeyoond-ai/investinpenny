@@ -37,58 +37,45 @@ export default function Blog() {
 
   // ── Scroll progress ──────────────────────────────────────────────────────────
 
+useEffect(() => {
+  const fetchBlogs = async () => {
+    try {
+      setLoadingSingle(true)
+      setLoading(true)
 
-  // ── Fetch the single blog by id ───────────────────────────────────────────────
-  useEffect(() => {
-    if (!id) return;
-    const fetchSingleBlog = async () => {
-      try {
-        const response = await api.get(`/get-blog/?id=${id}`);
-        const data = response.data;
-        if (Array.isArray(data)) {
-          // If the API returns all blogs, find the matching one
-          setSingleBlog(data.find(b => String(b.id) === String(id)) ?? data[0] ?? null);
-        } else if (data?.results) {
-          setSingleBlog(data.results.find(b => String(b.id) === String(id)) ?? null);
-        } else {
-          // Single object returned directly
-          setSingleBlog(data ?? null);
-        }
-      } catch (error) {
-        console.error("Error fetching single blog:", error);
-              alert("Failed to fetch related blogs. Please check your network or API server.");
+      // Fetch both at same time (FASTER)
+      const [singleResponse, allResponse] = await Promise.all([
+        api.get(`/get-blog/?id=${id}`),
+        api.get(`/get-blog/`)
+      ])
 
-      } finally {
-        setLoadingSingle(false);
-      }
-    };
-    fetchSingleBlog();
-  }, [id]);
+      const blogData = Array.isArray(singleResponse.data)
+        ? singleResponse.data[0]
+        : singleResponse.data
 
-  // ── Fetch related blogs ───────────────────────────────────────────────────────
-  useEffect(() => {
-    const fetchBlogs = async () => {
-      try {
-        const response = await api.get("/get-blog/");
-        const data = response.data;
-        const blogData = Array.isArray(data)
-          ? data
-          : data.results || data.data || [];
-          setBlogList(
-            blogData
-              .filter(b => String(b.id) !== String(id))
-              .slice(0, 5)
-          );
-      } catch (error) {
-        console.error("Error fetching blogs:", error);
-              alert("Failed to fetch related blogs. Please check your network or API server.");
+      setSingleBlog(blogData)
 
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchBlogs();
-  }, [id]);
+      const relatedBlogs = Array.isArray(allResponse.data)
+        ? allResponse.data
+            .filter(blog => String(blog.id) !== String(id))
+            .slice(0, 5)
+        : []
+
+      setBlogList(relatedBlogs)
+
+    } catch (error) {
+      console.error("Error fetching blogs:", error)
+    } finally {
+      setLoadingSingle(false)
+      setLoading(false)
+    }
+  }
+
+  if (id) {
+    fetchBlogs()
+  }
+}, [id])
+
 
   // ── Guards (all hooks are above this point) ───────────────────────────────────
   if (loadingSingle) {
@@ -158,6 +145,7 @@ const article = {
           <div className="lg:grid lg:grid-cols-12 lg:gap-8">
 
             {/* ── Article column ─────────────────────────────────────────────── */}
+            
             <div  className="lg:col-span-8 xl:col-span-7 xl:col-start-2">
 
               {/* Back link */}
@@ -171,8 +159,6 @@ const article = {
                 </a>
               </div>
                
-           
-
               {/* Title */}
              <header className="max-w-[820px] mx-auto mb-8 flex flex-col sm:flex-col gap-4">
   <div className="flex items-center justify-between">
@@ -191,7 +177,7 @@ const article = {
   <p className="text-lg sm:text-xl text-gray-400 leading-relaxed mt-4">
     {singleBlog.blog_sub_title || '-'}
   </p>
-</header>
+              </header>
 
               {/* Featured image */}
               {singleBlog.blog_img && (

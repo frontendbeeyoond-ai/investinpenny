@@ -216,7 +216,7 @@ const Icons = {
             </div>
 
             <div>
-              <p className="font-semibold text-white text-base sm:text-lg">
+              <p className="font-semibold text-white text-sm sm:text-lg">
                 {comment.author}
               </p>
 

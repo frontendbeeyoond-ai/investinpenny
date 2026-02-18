@@ -54,12 +54,12 @@ const Icons = {
             <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8">
               <div>
                 <div className="flex items-center gap-4 mb-4">
-                  <h3 className="text-4xl font-bold font-mono text-cyan-400">TRNR</h3>
-                  <span className="risk-badge-high px-4 py-2 rounded-full text-sm font-bold animate-pulse">
+                  <h3 className="text-4xl lg:text-4xl  font-bold font-mono text-cyan-400">TRNR</h3>
+                  <span className="text-xs text-nowrap lg:text-2xl risk-badge-high px-4 py-2 rounded-full font-bold animate-pulse">
                     EXTREME RISK
                   </span>
                 </div>
-                <p className="text-xl text-gray-300">Interactive Strength Inc.</p>
+                <p className="text-md lg:text-xl text-gray-300">Interactive Strength Inc.</p>
                 <p className="text-gray-500">NASDAQ • Penny Stock • Fitness Technology</p>
               </div>
               <div className="text-left lg:text-right">
@@ -81,8 +81,8 @@ const Icons = {
                 style={{ animationDelay: `${index * 0.1}s` }}
               >
                 <div className="flex justify-between items-center mb-6">
-                  <span className="text-lg text-gray-300">{rating.label}</span>
-                  <span className={`text-sm px-3 py-1 rounded-full ${
+                  <span className="text-sm lg:text-lg text-gray-300">{rating.label}</span>
+                  <span className={`text-xs lg:text-sm px-3 py-1 rounded-full text-nowrap ${
                     rating.status === 'Critical' ? 'bg-red-500/20 text-red-400 border border-red-500/30' :
                     rating.status === 'Negative' ? 'bg-orange-500/20 text-orange-400 border border-orange-500/30' :
                     'bg-yellow-500/20 text-yellow-400 border border-yellow-500/30'
@@ -108,8 +108,8 @@ const Icons = {
           <div className="glass-card p-10 rounded-3xl">
             <div className="flex items-center gap-3 mb-8">
               <Icons.Warning />
-              <h4 className="text-2xl lg:text-2xl font-bold">Risk Indicators</h4>
-              <span className="demo-badge">Demo Data</span>
+              <h4 className="text-xl text-nowrap lg:text-2xl font-bold">Risk Indicators</h4>
+              {/* <span className="demo-badge">Demo Data</span> */}
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
               {indicators.map((indicator, index) => (
