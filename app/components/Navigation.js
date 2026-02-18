@@ -23,16 +23,38 @@ export const Navigation = () => {
   const [open, setOpen] = useState(false)
 
   // Scroll background effect
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 50)
-    window.addEventListener('scroll', handleScroll)
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
+ useEffect(() => {
+  const handleScroll = () => {
+    if (typeof window !== "undefined") {
+      setScrolled(window.scrollY > 50)
+    }
+  }
+
+  if (typeof window !== "undefined") {
+    window.addEventListener("scroll", handleScroll)
+  }
+
+  return () => {
+    if (typeof window !== "undefined") {
+      window.removeEventListener("scroll", handleScroll)
+    }
+  }
+}, [])
+
 
   // Lock body scroll when mobile menu open
-  useEffect(() => {
-    document.body.style.overflow = open ? 'hidden' : 'auto'
-  }, [open])
+ useEffect(() => {
+  if (typeof document !== "undefined") {
+    document.body.style.overflow = open ? "hidden" : "auto"
+  }
+
+  return () => {
+    if (typeof document !== "undefined") {
+      document.body.style.overflow = "auto"
+    }
+  }
+}, [open])
+
 
   const navLinks = [
     { name: 'Analysis', href: '/#analysis' },
@@ -43,15 +65,19 @@ export const Navigation = () => {
     { name: 'About Us', href: '/about' },
   ]
 
-  const handleHashScroll = (e, href) => {
-    if (href.startsWith('#') && pathname === '/') {
-      e.preventDefault()
+const handleHashScroll = (e, href) => {
+  if (href.startsWith('#') && pathname === '/') {
+    e.preventDefault()
+
+    if (typeof document !== "undefined") {
       const el = document.querySelector(href)
       if (el) {
         el.scrollIntoView({ behavior: 'smooth' })
       }
     }
   }
+}
+
 
   return (
     <nav

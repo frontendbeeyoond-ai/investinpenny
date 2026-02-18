@@ -183,23 +183,12 @@ const article = {
               {singleBlog.blog_img && (
                 <figure className="mb-10">
                   <div className="relative rounded-2xl overflow-hidden">
-                    {/* <img
+                    <img
                       src={singleBlog.blog_img}
                       alt={singleBlog.blog_title}
                       className="w-full object-cover max-h-[480px]"
-                    /> */}
-                  {singleBlog?.blog_img && (
-                    <img
-                     src={
-                        typeof singleBlog?.blog_img === "string"
-                          ? singleBlog.blog_img.replace("http://", "https://")
-                          : ""
-                      }
-                      alt={singleBlog.blog_title || "Blog image"}
-                      className="w-full object-cover max-h-[480px]"
                       loading="lazy"
                     />
-                  )}
 
                     <div className="absolute inset-0 bg-gradient-to-t from-[#0a0a0f] via-transparent to-transparent" />
                   </div>

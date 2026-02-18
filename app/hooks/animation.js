@@ -6,21 +6,39 @@ const useScrollAnimation = (threshold = 0.1) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const entry = entries[0];
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-        }
-      },
-      { threshold }
-    );
+    // SSR guard
+    if (typeof window === "undefined") return;
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    // Safari fallback
+    if (!("IntersectionObserver" in window)) {
+      setIsVisible(true);
+      return;
     }
 
-    return () => observer.disconnect();
+    if (!ref.current) return;
+
+    let observer;
+
+    try {
+      observer = new IntersectionObserver(
+        (entries) => {
+          if (entries[0]?.isIntersecting) {
+            setIsVisible(true);
+            observer.disconnect();
+          }
+        },
+        { threshold }
+      );
+
+      observer.observe(ref.current);
+    } catch (err) {
+      // Fallback for iOS crash
+      setIsVisible(true);
+    }
+
+    return () => {
+      if (observer) observer.disconnect();
+    };
   }, [threshold]);
 
   return { ref, isVisible };
