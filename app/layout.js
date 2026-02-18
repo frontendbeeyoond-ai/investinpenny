@@ -10,6 +10,9 @@ export default function RootLayout({ children }) {
       <head>
     
         <meta name="theme-color" content="#3b82f6" />
+         <title>Invest in Penny</title>
+                <link rel="icon" href="/assets/favicon.png" />
+
       </head>
       <body className={inter.className}>
        
