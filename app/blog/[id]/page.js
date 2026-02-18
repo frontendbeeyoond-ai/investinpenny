@@ -128,6 +128,7 @@ const article = {
 
 
   return (
+    <>
     <div className="min-h-screen bg-[#0a0a0f] relative overflow-hidden">
 
       {/* ── Background glows ─────────────────────────────────────────────────── */}
@@ -151,7 +152,7 @@ const article = {
             <div  className="lg:col-span-8 xl:col-span-7 xl:col-start-2">
 
               {/* Back link */}
-              <div className="max-w-[820px] mx-auto py-4">
+              <div className=" mx-auto py-4">
                 <a
                   href="/"
                   className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-cyan-400 transition-colors"
@@ -162,14 +163,14 @@ const article = {
               </div>
                
               {/* Title */}
-     <header className="max-w-[820px] mx-auto mb-8 flex flex-col gap-4">
+     <header className="mx-auto mb-8 flex flex-col gap-4">
   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
     <h1 className="text-3xl sm:text-4xl md:text-[44px] font-bold text-white leading-tight">
       {singleBlog.blog_title || "-"} 
     </h1>
     
   
-      <span className="inline-flex items-center py-1.5 text-cyan-400 text-xs font-medium rounded-full">
+      <span className="inline-flex items-center py-1.5 text-cyan-400 text-xs font-medium rounded-full text-nowrap">
         {singleBlog.blog_date || "-"}
       </span>
     
@@ -200,7 +201,7 @@ const article = {
 
               {/* Blog content — Quill outputs raw HTML, render it safely */}
               <div
-                className="max-w-[820px] mx-auto quill-blog-content text-[18px] leading-[1.8] text-white"
+                className="mx-auto quill-blog-content text-[18px] leading-[1.8] text-white"
                 dangerouslySetInnerHTML={{ __html: singleBlog.blog_content ?? '' }}
               />
 
@@ -311,7 +312,7 @@ const article = {
         </div>
       </main>
 
-      <Footer />
+
 
      
 
@@ -431,5 +432,8 @@ const article = {
 `}</style>
 
     </div>
+    
+          <Footer />
+          </>
   );
 }
