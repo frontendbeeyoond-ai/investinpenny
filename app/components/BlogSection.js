@@ -78,11 +78,7 @@ export const BlogSection = () => {
                   <p className="text-gray-400 text-xs mt-2 line-clamp-1">{stripHtml(blog.blog_content)}</p>
 
                   <div className="flex items-center justify-between mt-3 text-[11px] text-gray-500">
-                    {new Date(blog.created_date).toLocaleDateString("en-US", {
-                      month: "short",
-                      day: "numeric",
-                      year: "numeric",
-                    })}
+                    {blog.blog_date || '-'}
 
                     <span className="text-cyan-400 hover:text-cyan-300 text-xs font-medium">Read →</span>
                   </div>

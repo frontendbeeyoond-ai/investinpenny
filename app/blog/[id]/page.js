@@ -34,7 +34,16 @@ export default function Blog() {
   const [singleBlog, setSingleBlog] = useState(null);
   const [loading, setLoading] = useState(true);
   const [loadingSingle, setLoadingSingle] = useState(true);
+const [currentPage, setCurrentPage] = useState(1);
+const POSTS_PER_PAGE = 10;
+const filteredBlogList = blogList.filter(blog => String(blog.id) !== String(id)); // exclude current
 
+const totalPages = Math.ceil(filteredBlogList.length / POSTS_PER_PAGE);
+
+const paginatedBlogs = filteredBlogList.slice(
+  (currentPage - 1) * POSTS_PER_PAGE,
+  currentPage * POSTS_PER_PAGE
+);
   // ── Scroll progress ──────────────────────────────────────────────────────────
 
 useEffect(() => {
@@ -55,11 +64,10 @@ useEffect(() => {
 
       setSingleBlog(blogData)
 
-      const relatedBlogs = Array.isArray(allResponse.data)
-        ? allResponse.data
-            .filter(blog => String(blog.id) !== String(id))
-            .slice(0, 5)
-        : []
+     const relatedBlogs = Array.isArray(allResponse.data)
+  ? allResponse.data.filter(blog => String(blog.id) !== String(id))
+  : []
+
 
       setBlogList(relatedBlogs)
 
@@ -117,23 +125,17 @@ const article = {
   category: 'Risk Analysis'
 };
 
-  // Derive a display date from whichever field exists
-  const displayDate = singleBlog.blog_date
-    ?? (singleBlog.created_date
-      ? new Date(singleBlog.created_date).toLocaleDateString("en-US", {
-          month: "long", day: "numeric", year: "numeric",
-        })
-      : null);
+
 
   return (
     <div className="min-h-screen bg-[#0a0a0f] relative overflow-hidden">
 
       {/* ── Background glows ─────────────────────────────────────────────────── */}
-      {/* <div className="fixed inset-0 pointer-events-none">
+      <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[150px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[150px]" />
         <div className="absolute top-1/2 right-0 w-[400px] h-[400px] bg-pink-500/5 rounded-full blur-[150px]" />
-      </div> */}
+      </div>
 
      
 
@@ -160,24 +162,25 @@ const article = {
               </div>
                
               {/* Title */}
-             <header className="max-w-[820px] mx-auto mb-8 flex flex-col sm:flex-col gap-4">
-  <div className="flex items-center justify-between">
+     <header className="max-w-[820px] mx-auto mb-8 flex flex-col gap-4">
+  <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
     <h1 className="text-3xl sm:text-4xl md:text-[44px] font-bold text-white leading-tight">
       {singleBlog.blog_title || "-"} 
     </h1>
     
-    {displayDate && (
-      <span className="inline-flex items-center px-4 py-1.5 text-cyan-400 text-xs font-medium rounded-full">
-                    {displayDate || "-"}
-                  </span>
-    )}
+  
+      <span className="inline-flex items-center py-1.5 text-cyan-400 text-xs font-medium rounded-full">
+        {singleBlog.blog_date || "-"}
+      </span>
+    
   </div>
 
   {/* Subtitle */}
   <p className="text-lg sm:text-xl text-gray-400 leading-relaxed mt-4">
     {singleBlog.blog_sub_title || '-'}
   </p>
-              </header>
+</header>
+
 
               {/* Featured image */}
               {singleBlog.blog_img && (
@@ -240,48 +243,67 @@ const article = {
             <aside className="hidden lg:block lg:col-span-4 xl:col-span-3">
               <div className="sticky top-24 space-y-6">
                 <div className="bg-gradient-to-br from-[#1a1a24] to-[#12121a] rounded-2xl border border-white/10 p-6">
-                  <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
-                    <span className="w-1 h-4 bg-gradient-to-b from-purple-400 to-pink-500 rounded-full" />
-                    Related Articles
-                  </h3>
+  <h3 className="font-semibold text-white mb-4 flex items-center gap-2">
+    <span className="w-1 h-4 bg-gradient-to-b from-purple-400 to-pink-500 rounded-full" />
+    Related Articles
+  </h3>
 
-                  {loading ? (
-                    <p className="text-gray-400 text-sm">Loading...</p>
-                  ) : blogList.length > 0 ? (
-                    <div className="space-y-4">
-                      {blogList.map((post) => (
-                        <a
-                          key={post.id}
-                          href={`/blog/${post.id}`}
-                          className="flex gap-3 group"
-                        >
-                          {post.blog_img && (
-                            <img
-                              src={post.blog_img}
-                              alt={post.blog_title}
-                              className="w-20 h-14 object-cover rounded-lg flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
-                            />
-                          )}
-                          <div className="flex-1 min-w-0">
-                            <h4 className="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">
-                              {post.blog_title}
-                            </h4>
-                            <p className="text-xs text-gray-500 mt-1">
-                              {post.blog_date ??
-                                new Date(post.created_date).toLocaleDateString("en-US", {
-                                  month: "short",
-                                  day: "numeric",
-                                  year: "numeric",
-                                })}
-                            </p>
-                          </div>
-                        </a>
-                      ))}
-                    </div>
-                  ) : (
-                    <p className="text-gray-400 text-sm">No related articles found.</p>
-                  )}
-                </div>
+  {loading ? (
+    <p className="text-gray-400 text-sm">Loading...</p>
+  ) : paginatedBlogs.length > 0 ? (
+    <>
+      <div className="space-y-4">
+        {paginatedBlogs.map((post) => (
+          <a
+            key={post.id}
+            href={`/blog/${post.id}`}
+            className="flex gap-3 group"
+          >
+            {post.blog_img && (
+              <img
+                src={post.blog_img}
+                alt={post.blog_title}
+                className="w-20 h-14 object-cover rounded-lg flex-shrink-0 opacity-80 group-hover:opacity-100 transition-opacity"
+              />
+            )}
+            <div className="flex-1 min-w-0">
+              <h4 className="text-sm font-medium text-gray-300 group-hover:text-cyan-400 transition-colors line-clamp-2 leading-tight">
+                {post.blog_title}
+              </h4>
+              <p className="text-xs text-gray-500 mt-1">
+                {post.blog_date || '-'}
+              </p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {/* Pagination Buttons */}
+      <div className="flex justify-between mt-4">
+        <button
+          onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))}
+          disabled={currentPage === 1}
+          className="px-4 py-2 bg-white/5 text-gray-400 rounded-md disabled:opacity-50 hover:bg-white/10 transition"
+        >
+          Prev
+        </button>
+        <span className="text-gray-400 text-sm flex items-center">
+          Page {currentPage} of {totalPages}
+        </span>
+        <button
+          onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+          disabled={currentPage === totalPages}
+          className="px-4 py-2 bg-white/5 text-gray-400 rounded-md disabled:opacity-50 hover:bg-white/10 transition"
+        >
+          Next
+        </button>
+      </div>
+    </>
+  ) : (
+    <p className="text-gray-400 text-sm">No related articles found.</p>
+  )}
+</div>
+
               </div>
             </aside>
 

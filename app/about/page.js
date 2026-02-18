@@ -138,11 +138,11 @@ const milestones = [
   return (
     <div className="min-h-screen bg-[#0a0a0f] relative overflow-hidden">
       {/* Background Effects */}
-      {/* <div className="fixed inset-0 pointer-events-none">
+      <div className="fixed inset-0 pointer-events-none">
         <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-cyan-500/10 rounded-full blur-[150px]" />
         <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-purple-500/10 rounded-full blur-[150px]" />
         <div className="absolute top-1/2 left-0 w-[400px] h-[400px] bg-pink-500/5 rounded-full blur-[150px]" />
-      </div> */}
+      </div>
 
     
 
