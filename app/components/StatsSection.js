@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect } from 'react';
-import Icons from '../hooks/icons';
 import useCounter from '../hooks/useCounter';
 export const  StatsSection = () => {
 
