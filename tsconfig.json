@@ -1,7 +1,11 @@
 {
   "compilerOptions": {
     "target": "ES2017",
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": false,
@@ -12,7 +16,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve",
+    "jsx": "react-jsx",
     "plugins": [
       {
         "name": "next"
@@ -38,7 +42,13 @@
     "app/sections/animations/FeatureRightCard.js",
     "app/sections/FeatureLeftCard.js",
     "app/sections/FeatureRightCard.js",
-    "app/sections/animations/NFTCardHoverAnimation.js"
-, "app/api/auth/[...nextauth]/route.js", "app/api/hello/route.js", "app/components/ErrorBoundary.js"  ],
-  "exclude": ["node_modules"]
+    "app/sections/animations/NFTCardHoverAnimation.js",
+    "app/api/auth/[...nextauth]/route.js",
+    "app/api/hello/route.js",
+    "app/components/ErrorBoundary.js",
+    ".next/dev/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
 }
