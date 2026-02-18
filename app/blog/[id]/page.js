@@ -190,7 +190,11 @@ const article = {
                     /> */}
                   {singleBlog?.blog_img && (
                     <img
-                      src={singleBlog.blog_img}
+                     src={
+                        typeof singleBlog?.blog_img === "string"
+                          ? singleBlog.blog_img.replace("http://", "https://")
+                          : ""
+                      }
                       alt={singleBlog.blog_title || "Blog image"}
                       className="w-full object-cover max-h-[480px]"
                       loading="lazy"

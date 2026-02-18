@@ -15,7 +15,10 @@
 * {
   box-sizing: border-box;
 }
-
+html, body {
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+}
 body {
   margin: 0;
   padding: 0;
