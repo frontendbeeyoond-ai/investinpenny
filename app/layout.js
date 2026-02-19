@@ -21,9 +21,10 @@ export const metadata = {
   icons: {
     icon: '/assets/favicon.png',
   },
+};
+export const viewport = {
   themeColor: '#3b82f6',
 };
-
 export default function RootLayout({ children }) {
 
 

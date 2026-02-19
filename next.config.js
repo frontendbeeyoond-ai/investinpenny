@@ -5,12 +5,16 @@ const nextConfig = {
   images: {
     unoptimized: true,  // 🚀 disables optimization for static export
   },
-   eslint: {
-    ignoreDuringBuilds: true,
-  },
-  images: {
-  domains: ["stelar-herbert-sinlike.ngrok-free.dev"],
-}
+    reactStrictMode: true,
+
+images: {
+  remotePatterns: [
+    {
+      protocol: 'https',
+      hostname: 'stelar-herbert-sinlike.ngrok-free.dev',
+    },
+  ],
+},
 };
 
 module.exports = nextConfig;

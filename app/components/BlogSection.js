@@ -63,7 +63,7 @@ export const BlogSection = () => {
             blogs.slice(0, 10).map((blog) => (
               <Link
                 key={blog.id}
-                href={`/blog/${blog.id}`}
+                href={`/blog/${blog.slug}`}
                 className="flex gap-4 bg-white/5 backdrop-blur-md border border-white/10 rounded-xl p-4 hover:shadow-xl transition cursor-pointer"
               >
                 {/* Image */}

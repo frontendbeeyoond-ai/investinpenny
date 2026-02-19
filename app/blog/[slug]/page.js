@@ -24,7 +24,7 @@ import api from '../../lib/helper';
 import { useParams } from 'next/navigation';
 
 export default function Blog() {
-  const { id } = useParams();
+  const { slug  } = useParams();
   const [isLiked, setIsLiked] = useState(false);
     const [isBookmarked, setIsBookmarked] = useState(false);
   const [showShareMenu, setShowShareMenu] = useState(false);
@@ -36,7 +36,7 @@ export default function Blog() {
   const [loadingSingle, setLoadingSingle] = useState(true);
 const [currentPage, setCurrentPage] = useState(1);
 const POSTS_PER_PAGE = 10;
-const filteredBlogList = blogList.filter(blog => String(blog.id) !== String(id)); // exclude current
+const filteredBlogList = blogList.filter(blog => String(blog.slug) !== String(slug)); // exclude current
 
 const totalPages = Math.ceil(filteredBlogList.length / POSTS_PER_PAGE);
 
@@ -54,7 +54,7 @@ useEffect(() => {
 
       // Fetch both at same time (FASTER)
       const [singleResponse, allResponse] = await Promise.all([
-        api.get(`/get-blog/?id=${id}`),
+        api.get(`/get-blog/?slug=${slug}`),
         api.get(`/get-blog/`)
       ])
 
@@ -65,7 +65,7 @@ useEffect(() => {
       setSingleBlog(blogData)
 
      const relatedBlogs = Array.isArray(allResponse.data)
-  ? allResponse.data.filter(blog => String(blog.id) !== String(id))
+  ? allResponse.data.filter(blog => String(blog.slug) !== String(slug))
   : []
 
 
@@ -79,10 +79,10 @@ useEffect(() => {
     }
   }
 
-  if (id) {
+  if (slug) {
     fetchBlogs()
   }
-}, [id])
+}, [slug])
 
 
   // ── Guards (all hooks are above this point) ───────────────────────────────────
